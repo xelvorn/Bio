@@ -103,7 +103,7 @@ body::before {
   background: linear-gradient(45deg, rgb(0, 0, 0), #2b2525, #1c1616, #000000);
   box-shadow: 0 4px 30px rgba(15, 15, 15, 0.6);
 }
-.profile-card__social a.discord {
+.profile-card__social a.msdl {
   background: linear-gradient(45deg, #717fce, #6f88a3);
   box-shadow: 0 4px 30px rgb(113, 127, 206);
 }
