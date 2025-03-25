@@ -1,71 +1,454 @@
 <!DOCTYPE html>
-<!Нахуя тебе код сайта баран, он все равно наполовину made by beevil>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Сайт с био одного неизвестного тебе человека.">
-    <title>xelvorn bio</title>
-	<link rel="preload" as="font" href="Oxygen.woff2" crossorigin>
-    <link rel="stylesheet" href="1/style.css">
-    <link rel="stylesheet" href="1/reset.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xelvorn's Bio</title>
+  <!-- Подключаем шрифт Source Code Pro для стиля терминала -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Source Code Pro', monospace;
+      background: #000;
+      color: #c0d6df;
+      overflow-x: hidden;
+    }
+
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 6px solid rgba(192,214,223,0.2);
+      border-top-color: #c0d6df;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(0,25,50,0.95));
+      z-index: -1;
+    }
+
+    header {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: rgba(0,0,0,0.95);
+      border-bottom: 1px solid rgba(192,214,223,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    header h1 {
+      font-size: 2rem;
+      letter-spacing: 1px;
+      color: #c0d6df;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      background: rgba(0,0,0,0.95);
+      border-bottom: 1px solid rgba(192,214,223,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .tab {
+      padding: 1rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-weight: 400;
+      font-size: 0.95rem;
+      color: #9fb3c8;
+      transition: color 0.3s, background 0.3s;
+      position: relative;
+    }
+    .tab:not(:last-child) {
+      border-right: 1px solid rgba(192,214,223,0.2);
+    }
+    .tab:hover {
+      color: #c0d6df;
+      background: rgba(0,25,50,0.5);
+    }
+    .tab.active {
+      color: #c0d6df;
+      background: rgba(0,25,50,0.7);
+      font-weight: 600;
+    }
+    .tab.active::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #a8dadc, #457b9d);
+      animation: neonLine 3s linear infinite;
+    }
+    @keyframes neonLine {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 200% 0%; }
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 2rem 1rem;
+      position: relative;
+      z-index: 1;
+    }
+    .tab-content {
+      max-width: 900px;
+      width: 100%;
+      display: none;
+      background: rgba(0,0,0,0.95);
+      border: 1px solid rgba(192,214,223,0.2);
+      border-radius: 6px;
+      padding: 1.5rem;
+      box-shadow: 0 0 15px rgba(0,0,0,0.7);
+      backdrop-filter: blur(3px);
+      animation: fadeIn 0.4s ease;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h2 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      color: #c0d6df;
+    }
+    p, li {
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      color: #c0d6df;
+    }
+    ul {
+      list-style: none;
+      padding-left: 1rem;
+    }
+    ul li::before {
+      content: "• ";
+      color: #a8dadc;
+    }
+    a {
+      color: #457b9d;
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+
+    .terminal {
+      background: #000;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+    }
+    .terminal span.command {
+      color: #66d9ef;
+    }
+    .terminal span.response {
+      display: block;
+      margin-top: 0.5rem;
+      color: #c5c8c6;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .artist-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .artist-card {
+      flex: 1 1 250px;
+      background: rgba(0,0,0,0.95);
+      border: 1px solid rgba(192,214,223,0.2);
+      border-radius: 6px;
+      padding: 1rem;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .artist-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
+    .artist-card img {
+      max-width: 100%;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+    }
+    .artist-card h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+      color: #c0d6df;
+    }
+    .artist-card a {
+      display: inline-block;
+      background: #a8dadc;
+      color: #000;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+    .artist-card a:hover { background: #457b9d; }
+
+    .device-card {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      background: rgba(0,0,0,0.95);
+      border: 1px solid rgba(192,214,223,0.2);
+      border-radius: 6px;
+      padding: 1rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin-bottom: 1rem;
+    }
+    .device-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
+    .device-card img {
+      max-width: 150px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+    .device-info {
+      flex: 1;
+    }
+    .device-info h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.3rem;
+      color: #c0d6df;
+    }
+    .device-info ul { margin-left: 1rem; }
+
+    .pc-cards {
+      display: flex;
+      gap: 1rem;
+      justify-content: space-around;
+      flex-wrap: nowrap;
+    }
+
+    footer {
+      background: rgba(0,0,0,0.95);
+      text-align: center;
+      padding: 1rem;
+      border-top: 1px solid rgba(192,214,223,0.2);
+      color: #9fb3c8;
+      font-size: 0.9rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 600px) {
+      .pc-cards {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .device-card, .artist-card {
+        flex: 1 1 100%;
+      }
+      header, .tabs, main, footer {
+        padding: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="profile-card">
-        <div class="text-before-profile__desc">
-            <h1>xelvorn</h1>
+  <div id="preloader">
+    <div class="spinner"></div>
+  </div>
+
+  <header>
+    <h1>xelvorn's Bio</h1>
+  </header>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="bio">bio</div>
+    <div class="tab" data-tab="music">music</div>
+    <div class="tab" data-tab="devices">devices</div>
+    <div class="tab" data-tab="interests">interests</div>
+    <div class="tab" data-tab="contacts">contacts</div>
+  </div>
+
+  <main>
+    <section class="tab-content active" id="bio">
+      <div class="terminal">
+        <span class="command">[lamer@hplaptop ~]$ sudo pacman -Sii bio</span>
+        <span class="response">
+          Имя: bio<br>
+          Версия: 2.0.0<br>
+          Описание: я ебу?<br>
+          Автор: xelvorn<br>
+          Дата сборки: 2025-03-25
+        </span>
+      </div>
+      <div class="terminal">
+        <span class="command">[lamer@hplaptop ~]$ cat /etc/xelvorn/info</span>
+        <span class="response">
+          Имя пользователя: xelvorn AKA xelrn<br>
+          Локация: Russia<br>
+          Интересы: программирование, музыка, гнить<br>
+          Любимые фразы: иди нахуй<br>
+          Будущее: нету
+        </span>
+      </div>
+    </section>
+
+    <section class="tab-content" id="music">
+      <h2>Музыкальные коллекции</h2>
+      <p>Ниже представлены мои любимые исполнители. Нажмите на карточку для перехода к их профилю в яндекс музыке.</p>
+      <div class="artist-cards">
+        <div class="artist-card">
+          <img src="gf.png" alt="Gone.Fludd" />
+          <h3>Gone.Fludd</h3>
+          <a href="https://music.yandex.ru/artist/4865954" target="_blank">Слушать в Я.Музыке</a>
         </div>
-       <div class="profile-card__social">
-            <a href="tg://resolve?domain=xelrn" aria-label="Telegram link" class="telegram">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-telegram" width="32" height="64" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4"></path>
-                 </svg>
-            </a>
-			<a href="https://msdl.eblo.lol" aria-label="My MSDL" class="msdl">
-                <svg fill="#FFFFFF" width="32px" height="64px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
-                    <path d="M20.5 6h-12C7.122 6 6 7.122 6 8.5v12C6 21.878 7.122 23 8.5 23h12c1.378 0 2.5-1.122 2.5-2.5v-12C23 7.122 21.878 6 20.5 6zM39.5 6h-12C26.122 6 25 7.122 25 8.5v12c0 1.378 1.122 2.5 2.5 2.5h12c1.378 0 2.5-1.122 2.5-2.5v-12C42 7.122 40.878 6 39.5 6zM20.5 25h-12C7.122 25 6 26.122 6 27.5v12C6 40.878 7.122 42 8.5 42h12c1.378 0 2.5-1.122 2.5-2.5v-12C23 26.122 21.878 25 20.5 25zM39.5 25h-12c-1.378 0-2.5 1.122-2.5 2.5v12c0 1.378 1.122 2.5 2.5 2.5h12c1.378 0 2.5-1.122 2.5-2.5v-12C42 26.122 40.878 25 39.5 25z"></path>
-
-
-                </svg>
-            </a>
-
-            <a href="https://www.tiktok.com/@MS4wLjABAAAArEqIBD820HCYdIfQ39eWaypuw-pFHkZeQogUBN51ZE87Yp23GlPmupwVK9BmObmj" aria-label="TikTok link" class="tiktok">
-                <svg fill="#FFFFFF" width="32px" height="64px" viewBox="-4 -5 32 32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
-                    <path d="M22.5 9.84202C20.4357 9.84696 18.4221 9.20321 16.7435 8.00171V16.3813C16.7429 17.9333 16.2685 19.4482 15.3838 20.7233C14.499 21.9984 13.246 22.973 11.7923 23.5168C10.3387 24.0606 8.75362 24.1477 7.24914 23.7664C5.74466 23.3851 4.39245 22.5536 3.37333 21.383C2.3542 20.2125 1.71674 18.7587 1.54617 17.2161C1.3756 15.6735 1.68007 14.1156 2.41884 12.7507C3.15762 11.3858 4.2955 10.279 5.68034 9.57823C7.06517 8.87746 8.63095 8.61616 10.1683 8.82927V13.0439C9.4648 12.8227 8.70938 12.8293 8.0099 13.063C7.31041 13.2966 6.70265 13.7453 6.2734 14.345C5.84415 14.9446 5.61536 15.6646 5.6197 16.402C5.62404 17.1395 5.8613 17.8567 6.29759 18.4512C6.73387 19.0458 7.34688 19.4873 8.04906 19.7127C8.75125 19.9381 9.5067 19.9359 10.2075 19.7063C10.9084 19.4768 11.5188 19.0316 11.9515 18.4345C12.3843 17.8374 12.6173 17.1188 12.6173 16.3813V0H16.7435C16.7406 0.348435 16.7698 0.696395 16.8307 1.03948V1.03948C16.9741 1.80537 17.2722 2.53396 17.7068 3.18068C18.1415 3.8274 18.7035 4.37867 19.3585 4.80075C20.2903 5.41688 21.3829 5.74528 22.5 5.74505V9.84202Z"/>
-                </svg>
-            </a>
-
-            <a href="https://steamcommunity.com/id/xlrn" aria-label="Steam link" class="steam">
-                <svg width="32px" height="64px" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="none">
-
-                    <g style="fill:#FFFFFF;stroke:#FFFFFF;stroke-width:6.09958;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1" transform="matrix(1.9641 0 0 1.96342 19.541 5.281)">
-
-                    <path fill="#FFFFFF" d="m.154 41.29 23.71 9.803a12.444 12.444 0 0 1 7.745-2.158l10.544-15.283-.001-.216c0-9.199 7.483-16.683 16.683-16.683 9.199 0 16.682 7.484 16.682 16.683S68.034 50.12 58.835 50.12c-.127 0-.253-.003-.379-.006l-15.038 10.73c.008.195.015.394.015.592 0 6.906-5.617 12.522-12.522 12.522-6.061 0-11.129-4.326-12.277-10.055l-16.956-7.01" style="display:inline;fill:#FFFFFF;stroke:#FFFFFF;stroke-width:6.09958;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"/>
-
-                    <ellipse cx="58.576" cy="33.435" rx="9.916" ry="9.922" style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:6.09958;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:5;stroke-dasharray:none;stroke-opacity:1" stroke="none"/>
-
-                    <ellipse cx="31.079" cy="61.436" rx="7.437" ry="7.441" style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:6.09958;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:5;stroke-dasharray:none;stroke-opacity:1" stroke="none"/>
-
-                    </g>
-
-                </svg>
-            </a>
-
-            <a href="https://github.com/xelvorn" aria-label="Github link" class="github">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="32" height="64" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"></path>
-                 </svg>
-            </a>
-
-        </div>     
-        
-        <div class="text-before-profile__desc">
-            <h1>Main device:</h1> <a href="https://www.mi.com/ru/product/xiaomi-11-lite-5g-ne/">Mi 11 Lite 5G NE (lisa)</a>
-            <h1>Other in:</h1> <a href="https://t.me/Pixel8Pro_bio">My Telegram Bio</a>
+        <div class="artist-card">
+          <img src="2r2r.png" alt="2rbina 2rista" />
+          <h3>2rbina 2rista</h3>
+          <a href="https://music.yandex.ru/artist/3789570" target="_blank">Слушать в Я.Музыке</a>
         </div>
-    </div>
+        <div class="artist-card">
+          <img src="пм.png" alt="Пошлая Молли" />
+          <h3>Пошлая Молли</h3>
+          <a href="https://music.yandex.ru/artist/4952161" target="_blank">Слушать в Я.Музыке</a>
+        </div>
+        <div class="artist-card">
+          <h3>Mindless Self Indulgence</h3>
+          <a href="https://music.yandex.ru/artist/161544" target="_blank">Слушать в Я.Музыке</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="tab-content" id="devices">
+      <h2>Девайсы</h2>
+      <p>Основные устройства, которые я использую:</p>
+      <div class="device-card">
+        <img src="mi11lite.png" alt="Mi 11 Lite 5G NE" />
+        <div class="device-info">
+          <h3>Mi 11 Lite 5G NE</h3>
+          <ul>
+            <li>Процессор: Snapdragon 778G</li>
+            <li>ОЗУ: 8GB</li>
+            <li>Накопитель: 128GB</li>
+            <li>Экран: 6.55" AMOLED, 90 Гц</li>
+            <li>ОС: OxygenOS 15</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pc-cards">
+        <div class="device-card">
+          <img src="hp.png" alt="HP Laptop" />
+          <div class="device-info">
+            <h3>HP Laptop</h3>
+            <ul>
+              <li>Процессор: Pentium Gold 7505</li>
+              <li>ОЗУ: 8GB DDR4</li>
+              <li>SSD: 256GB</li>
+              <li>OS: Arch linux</li>
+            </ul>
+          </div>
+        </div>
+        <div class="device-card">
+          <img src="gaybook.png" alt="Acer Aspire" />
+          <div class="device-info">
+            <h3>Acer Aspire A315-42G</h3>
+            <ul>
+              <li>Процессор: Ryzen 5 3500U</li>
+              <li>ОЗУ: 8GB DDR4</li>
+              <li>SSD: 512GB</li>
+              <li>OS: ШindoVs 10</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tab-content" id="interests">
+      <h2>Интересы</h2>
+      <p>я увлекаюсь:</p>
+      <ul>
+        <li>ебля с википедией</li>
+        <li>install rom india pubg 1488fps</li>
+        <li>гниением в сети интернет</li>
+        <li>roblox,minecraft,l4d,unturned</li>
+      </ul>
+    </section>
+
+    <section class="tab-content" id="contacts">
+      <h2>Контакты</h2>
+      <p>Найти меня можно в следующих сервисах:</p>
+      <ul>
+        <li><a href="https://t.me/xelrn132" target="_blank">Telegram</a></li>
+        <li><a href="https://pinterest.com/xelvorn" target="_blank">Pinterest</a></li>
+        <li><a href="https://www.tiktok.com/@ювелир" target="_blank">TikTok</a></li>
+        <li><a href="https://t.me/utirokpost" target="_blank">Shitpost</a></li>
+        <li><a href="https://t.me/filemusor" target="_blank">FileGarbage</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2030 xelvorn. Все права спизжены, сайт хуйня кривая.</p>
+  </footer>
+
+  <script>
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('preloader').style.display = 'none';
+      }, 800);
+    });
+
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.tab-content');
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach((t) => t.classList.remove('active'));
+        tab.classList.add('active');
+        contents.forEach((content) => content.classList.remove('active'));
+        const target = tab.getAttribute('data-tab');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+  </script>
 </body>
 </html>
