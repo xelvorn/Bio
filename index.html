@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>xelvorn's Bio</title>
-  <!-- Подключаем шрифт Source Code Pro для стиля терминала -->
   <link rel="preconnect" href="https://fonts.gstatic.com" />
   <link
     href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap"
@@ -237,7 +236,7 @@
 }
 
 .tab-icon svg {
-  fill: #c0d6df; /* светло-серый */
+  fill: #c0d6df;
 }
 
 @media (max-width: 600px) {
@@ -379,10 +378,11 @@
         <span class="command">[lamer@hplaptop ~]$ sudo pacman -Sii bio</span>
         <span class="response">
           Имя: bio<br>
-          Версия: 2.0.0<br>
-          Описание: я ебу?<br>
+          Версия: 2.0.5<br>
+          Описание: кривой био-сайтик о нн парне из тг<br>
+          Изменения: добавил свайпы на моб устройства<br>
           Автор: xelvorn<br>
-          Дата сборки: 2025-03-25
+          Дата сборки: 2025-03-27
         </span>
       </div>
       <div class="terminal">
@@ -392,7 +392,7 @@
           Локация: Russia<br>
           Интересы: программирование, музыка, гнить<br>
           Любимые фразы: иди нахуй<br>
-          Будущее: нету
+          Будущее: может продавцом в пятерочке
         </span>
       </div>
     </section>
@@ -521,5 +521,31 @@
       });
     });
   </script>
+  <script>
+  let touchstartX = 0;
+  let touchendX = 0;
+
+  function handleGesture() {
+    if (touchendX < touchstartX - 50) {
+      const activeTab = document.querySelector('.tab.active');
+      const nextTab = activeTab.nextElementSibling;
+      if (nextTab) nextTab.click();
+    }
+    if (touchendX > touchstartX + 50) {
+      const activeTab = document.querySelector('.tab.active');
+      const prevTab = activeTab.previousElementSibling;
+      if (prevTab) prevTab.click();
+    }
+  }
+
+  document.addEventListener('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX;
+  });
+
+  document.addEventListener('touchend', e => {
+    touchendX = e.changedTouches[0].screenX;
+    handleGesture();
+  });
+</script>
 </body>
 </html>
