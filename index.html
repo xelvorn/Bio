@@ -1,551 +1,587 @@
 <!DOCTYPE html>
+<!прив чувак если захочешь что то спиздить пизди на хдоровье>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>xelvorn's Bio</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap"
-    rel="stylesheet"
-  />
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html, body {
-      height: 100%;
-      font-family: 'Source Code Pro', monospace;
-      background: #000;
-      color: #c0d6df;
-      overflow-x: hidden;
-    }
-
-    #preloader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-    .spinner {
-      width: 60px;
-      height: 60px;
-      border: 6px solid rgba(192,214,223,0.2);
-      border-top-color: #c0d6df;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(0,25,50,0.95));
-      z-index: -1;
-    }
-
-    header {
-      text-align: center;
-      padding: 1.5rem 1rem;
-      background: rgba(0,0,0,0.95);
-      border-bottom: 1px solid rgba(192,214,223,0.2);
-      position: relative;
-      z-index: 1;
-    }
-    header h1 {
-      font-size: 2rem;
-      letter-spacing: 1px;
-      color: #c0d6df;
-    }
-
-    .tabs {
-      display: flex;
-      justify-content: center;
-      background: rgba(0,0,0,0.95);
-      border-bottom: 1px solid rgba(192,214,223,0.2);
-      position: relative;
-      z-index: 1;
-    }
-    .tab {
-      padding: 1rem;
-      cursor: pointer;
-      text-transform: uppercase;
-      font-weight: 400;
-      font-size: 0.95rem;
-      color: #9fb3c8;
-      transition: color 0.3s, background 0.3s;
-      position: relative;
-    }
-    .tab:not(:last-child) {
-      border-right: 1px solid rgba(192,214,223,0.2);
-    }
-    .tab:hover {
-      color: #c0d6df;
-      background: rgba(0,25,50,0.5);
-    }
-    .tab.active {
-      color: #c0d6df;
-      background: rgba(0,25,50,0.7);
-      font-weight: 600;
-    }
-    .tab.active::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, #a8dadc, #457b9d);
-      animation: neonLine 3s linear infinite;
-    }
-    @keyframes neonLine {
-      0% { background-position: 0% 0%; }
-      100% { background-position: 200% 0%; }
-    }
-
-    main {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 2rem 1rem;
-      position: relative;
-      z-index: 1;
-    }
-    .tab-content {
-      max-width: 900px;
-      width: 100%;
-      display: none;
-      background: rgba(0,0,0,0.95);
-      border: 1px solid rgba(192,214,223,0.2);
-      border-radius: 6px;
-      padding: 1.5rem;
-      box-shadow: 0 0 15px rgba(0,0,0,0.7);
-      backdrop-filter: blur(3px);
-      animation: fadeIn 0.4s ease;
-    }
-    .tab-content.active {
-      display: block;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    h2 {
-      margin-bottom: 1rem;
-      font-size: 1.5rem;
-      color: #c0d6df;
-    }
-    p, li {
-      line-height: 1.6;
-      margin-bottom: 1rem;
-      color: #c0d6df;
-    }
-    ul {
-      list-style: none;
-      padding-left: 1rem;
-    }
-    ul li::before {
-      content: "• ";
-      color: #a8dadc;
-    }
-    a {
-      color: #457b9d;
-      text-decoration: none;
-    }
-    a:hover { text-decoration: underline; }
-
-    .terminal {
-      background: #000;
-      padding: 1rem;
-      border-radius: 4px;
-      margin-bottom: 1rem;
-      font-size: 0.95rem;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
-    }
-    .terminal span.command {
-      color: #66d9ef;
-    }
-    .terminal span.response {
-      display: block;
-      margin-top: 0.5rem;
-      color: #c5c8c6;
-      font-size: 0.9rem;
-      line-height: 1.4;
-    }
-
-    .artist-cards {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    .artist-card {
-      flex: 1 1 250px;
-      background: rgba(0,0,0,0.95);
-      border: 1px solid rgba(192,214,223,0.2);
-      border-radius: 6px;
-      padding: 1rem;
-      text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .artist-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-    }
-    .artist-card img {
-      max-width: 100%;
-      border-radius: 6px;
-      margin-bottom: 0.5rem;
-    }
-    .artist-card h3 {
-      margin-bottom: 0.5rem;
-      font-size: 1.2rem;
-      color: #c0d6df;
-    }
-    .artist-card a {
-      display: inline-block;
-      background: #a8dadc;
-      color: #000;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: background 0.3s;
-    }
-    .artist-card a:hover { background: #457b9d; }
-
-.tab-icon {
-  display: none;
-  width: 24px;
-  height: 24px;
-  margin-top: 4px;
-}
-
-.tab-icon svg {
-  fill: #c0d6df;
-}
-
-@media (max-width: 600px) {
-  .tab-text {
-    display: none;
-  }
-  .tab-icon {
-    display: inline-block;
-  }
-}
-
-    .device-card {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      align-items: center;
-      background: rgba(0,0,0,0.95);
-      border: 1px solid rgba(192,214,223,0.2);
-      border-radius: 6px;
-      padding: 1rem;
-      transition: transform 0.3s, box-shadow 0.3s;
-      margin-bottom: 1rem;
-    }
-    .device-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-    }
-    .device-card img {
-      max-width: 150px;
-      border-radius: 6px;
-      flex-shrink: 0;
-    }
-    .device-info {
-      flex: 1;
-    }
-    .device-info h3 {
-      margin-bottom: 0.5rem;
-      font-size: 1.3rem;
-      color: #c0d6df;
-    }
-    .device-info ul { margin-left: 1rem; }
-
-    .pc-cards {
-      display: flex;
-      gap: 1rem;
-      justify-content: space-around;
-      flex-wrap: nowrap;
-    }
-
-    footer {
-      background: rgba(0,0,0,0.95);
-      text-align: center;
-      padding: 1rem;
-      border-top: 1px solid rgba(192,214,223,0.2);
-      color: #9fb3c8;
-      font-size: 0.9rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    @media (max-width: 600px) {
-      .pc-cards {
-        flex-wrap: wrap;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>xelvorn's Bio</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #c0d6df;
+        --secondary-color: #9fb3c8;
+        --accent-gradient: linear-gradient(90deg, #a8dadc, #457b9d);
+        --bg-gradient: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(0, 25, 50, 0.95));
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        height: 100%;
+        font-family: 'Source Code Pro', monospace;
+        background: #000;
+        color: var(--primary-color);
+        overflow-x: hidden;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--bg-gradient);
+        z-index: -2;
+      }
+      #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        display: flex;
+        align-items: center;
         justify-content: center;
+        z-index: 9999;
       }
-      .device-card, .artist-card {
-        flex: 1 1 100%;
+      .spinner {
+        width: 60px;
+        height: 60px;
+        border: 6px solid rgba(192,214,223,0.2);
+        border-top-color: var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
       }
-      header, .tabs, main, footer {
+      @keyframes spin { to { transform: rotate(360deg); } }
+      header {
+        text-align: center;
+        padding: 1.5rem 1rem;
+        background: rgba(0,0,0,0.95);
+        border-bottom: 1px solid rgba(192,214,223,0.2);
+        position: relative;
+        z-index: 1;
+      }
+      header h1 { font-size: 2rem; letter-spacing: 1px; color: var(--primary-color); }
+      .tabs {
+        display: flex;
+        justify-content: center;
+        background: rgba(0,0,0,0.95);
+        border-bottom: 1px solid rgba(192,214,223,0.2);
+        position: relative;
+        z-index: 1;
+      }
+      .tab {
         padding: 1rem;
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 400;
+        font-size: 0.95rem;
+        color: var(--secondary-color);
+        transition: color 0.3s, background 0.3s;
+        position: relative;
+        border-right: 1px solid rgba(192,214,223,0.2);
       }
-    }
-  </style>
-</head>
-<body>
-  <div id="preloader">
-    <div class="spinner"></div>
-  </div>
-
-  <header>
-    <h1>xelvorn's Bio</h1>
-  </header>
-
-<div class="tabs">
-  <div class="tab active" data-tab="bio">
-    <span class="tab-text">bio</span>
-    <span class="tab-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-        <g id="_01_align_center" data-name="01 align center">
-          <path d="M21,24H19V18.957A2.96,2.96,0,0,0,16.043,16H7.957A2.96,2.96,0,0,0,5,18.957V24H3V18.957A4.963,4.963,0,0,1,7.957,14h8.086A4.963,4.963,0,0,1,21,18.957Z"/>
-          <path d="M12,12a6,6,0,1,1,6-6A6.006,6.006,0,0,1,12,12ZM12,2a4,4,0,1,0,4,4A4,4,0,0,0,12,2Z"/>
-        </g>
-      </svg>
-    </span>
-  </div>
-  <div class="tab" data-tab="music">
-    <span class="tab-text">music</span>
-    <span class="tab-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-        <path d="M22.554.923A3.978,3.978,0,0,0,19.263.07L10.079,1.792A5,5,0,0,0,6,6.706v9.85A3.959,3.959,0,0,0,4,16a4,4,0,1,0,4,4V10.876A2,2,0,0,1,9.632,8.91l11.183-2.1A1,1,0,0,1,22,7.8v5.76A3.959,3.959,0,0,0,20,13a4,4,0,1,0,4,4V4A3.987,3.987,0,0,0,22.554.923ZM4,22a2,2,0,1,1,2-2A2,2,0,0,1,4,22ZM20.447,4.848,9.263,6.944A4,4,0,0,0,8,7.416v-.71a3,3,0,0,1,2.447-2.949l9.185-1.722A2,2,0,0,1,22,4v.984A2.955,2.955,0,0,0,20.447,4.848ZM20,19a2,2,0,1,1,2-2A2,2,0,0,1,20,19Z"/>
-      </svg>
-    </span>
-  </div>
-  <div class="tab" data-tab="devices">
-    <span class="tab-text">devices</span>
-    <span class="tab-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-        <path d="M15.045,0c-.027-.001-6.063-.001-6.09,0-2.736,.024-4.955,2.258-4.955,4.999v14c0,2.757,2.243,5,5,5h6c2.757,0,5-2.243,5-5V5C20,2.258,17.781,.025,15.045,0Zm2.955,18.999c0,1.654-1.346,3-3,3h-6c-1.654,0-3-1.346-3-3V5c0-1.453,1.038-2.667,2.411-2.942l.694,1.389c.169,.339,.516,.553,.895,.553h4c.379,0,.725-.214,.895-.553l.694-1.389c1.373,.274,2.411,1.489,2.411,2.942v14Zm-5,1h-2c-.552,0-1-.448-1-1h0c0-.552,.448-1,1-1h2c.552,0,1,.448,1,1h0c0,.552-.448,1-1,1Z"/>
-      </svg>
-    </span>
-  </div>
-  <div class="tab" data-tab="interests">
-    <span class="tab-text">interests</span>
-    <span class="tab-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-        <g id="_01_align_center" data-name="01 align center">
-          <path d="M17.5.917a6.4,6.4,0,0,0-5.5,3.3A6.4,6.4,0,0,0,6.5.917,6.8,6.8,0,0,0,0,7.967c0,6.775,10.956,14.6,11.422,14.932l.578.409.578-.409C13.044,22.569,24,14.742,24,7.967A6.8,6.8,0,0,0,17.5.917ZM12,20.846c-3.253-2.43-10-8.4-10-12.879a4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,11,7.967h2a4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,22,7.967C22,12.448,15.253,18.416,12,20.846Z"/>
-        </g>
-      </svg>
-    </span>
-  </div>
-  <div class="tab" data-tab="contacts">
-    <span class="tab-text">contacts</span>
-    <span class="tab-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-        <g id="_01_align_center" data-name="01 align center">
-          <path d="M1.444,6.669a2,2,0,0,0-.865,3.337l3.412,3.408V20h6.593l3.435,3.43a1.987,1.987,0,0,0,1.408.588,2.034,2.034,0,0,0,.51-.066,1.978,1.978,0,0,0,1.42-1.379L23.991.021ZM2,8.592l17.028-5.02L5.993,16.586v-4Zm13.44,13.424L11.413,18h-4L20.446,4.978Z"/>
-        </g>
-      </svg>
-    </span>
-  </div>
-</div>
-
-
-
-  <main>
-    <section class="tab-content active" id="bio">
-      <div class="terminal">
-        <span class="command">[lamer@hplaptop ~]$ sudo pacman -Sii bio</span>
-        <span class="response">
-          Имя: bio<br>
-          Версия: 2.0.5<br>
-          Описание: кривой био-сайтик о нн парне из тг<br>
-          Изменения: добавил свайпы на моб устройства<br>
-          Автор: xelvorn<br>
-          Дата сборки: 2025-03-27
+      .tab:last-child { border-right: none; }
+      .tab:hover { color: var(--primary-color); background: rgba(0,25,50,0.5); }
+      .tab.active {
+        color: var(--primary-color);
+        background: rgba(0,25,50,0.7);
+        font-weight: 600;
+      }
+      .tab.active::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--accent-gradient);
+        animation: neonLine 3s linear infinite;
+      }
+      @keyframes neonLine {
+        0% { background-position: 0% 0%; }
+        100% { background-position: 200% 0%; }
+      }
+      .tab-icon { display: none; }
+      @media (max-width:600px) {
+        .tab-icon { display: inline-block; }
+        .tab-icon svg { fill: var(--primary-color); }
+        .tab-text { display: none; }
+      }
+      main {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 2rem 1rem;
+        position: relative;
+        z-index: 1;
+      }
+      .tab-content {
+        max-width: 900px;
+        width: 100%;
+        display: none;
+        background: rgba(0,0,0,0.95);
+        border: 1px solid rgba(192,214,223,0.2);
+        border-radius: 6px;
+        padding: 1.5rem;
+        box-shadow: 0 0 15px rgba(0,0,0,0.7);
+        backdrop-filter: blur(3px);
+        animation: fadeIn 0.4s ease;
+      }
+      .tab-content.active { display: block; }
+      @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+      h2 { margin-bottom: 1rem; font-size: 1.5rem; color: var(--primary-color); }
+      p, li { line-height: 1.6; margin-bottom: 1rem; color: var(--primary-color); }
+      ul { list-style: none; padding-left: 1rem; }
+      ul li::before { content: "• "; color: #a8dadc; }
+      a { color: #457b9d; text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      .terminal {
+        background: #000;
+        padding: 1rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+      }
+      .terminal span.command { color: #66d9ef; }
+      .terminal span.response {
+        display: block;
+        margin-top: 0.5rem;
+        color: #c5c8c6;
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+      .artist-cards { display: flex; flex-wrap: wrap; gap: 1rem; }
+      .artist-card {
+        flex: 1 1 250px;
+        background: rgba(0,0,0,0.95);
+        border: 1px solid rgba(192,214,223,0.2);
+        border-radius: 6px;
+        padding: 1rem;
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .artist-card:hover { transform: translateY(-5px); box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
+      .artist-card img { max-width: 100%; border-radius: 6px; margin-bottom: 0.5rem; }
+      .artist-card h3 { margin-bottom: 0.5rem; font-size: 1.2rem; color: var(--primary-color); }
+      .artist-card a {
+        display: inline-block;
+        background: #a8dadc;
+        color: #000;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background 0.3s;
+      }
+      .artist-card a:hover { background: #457b9d; }
+      .device-card {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        background: rgba(0,0,0,0.95);
+        border: 1px solid rgba(192,214,223,0.2);
+        border-radius: 6px;
+        padding: 1rem;
+        transition: transform 0.3s, box-shadow 0.3s;
+        margin-bottom: 1rem;
+      }
+      .device-card:hover { transform: translateY(-5px); box-shadow: 0 4px 15px rgba(0,0,0,0.6); }
+      .device-card img { max-width: 150px; border-radius: 6px; flex-shrink: 0; }
+      .device-info { flex: 1; }
+      .device-info h3 { margin-bottom: 0.5rem; font-size: 1.3rem; color: var(--primary-color); }
+      .device-info ul { margin-left: 1rem; }
+      .pc-cards {
+        display: flex;
+        gap: 1rem;
+        justify-content: space-around;
+        flex-wrap: nowrap;
+      }
+      footer {
+        background: rgba(0,0,0,0.95);
+        text-align: center;
+        padding: 1rem;
+        border-top: 1px solid rgba(192,214,223,0.2);
+        color: #9fb3c8;
+        font-size: 0.9rem;
+        position: relative;
+        z-index: 1;
+      }
+      .profile-card {
+        box-shadow: 0 18px 550px -50px black;
+        border-radius: 50px;
+        width: auto;
+        position: relative;
+        -webkit-backdrop-filter: blur(15px);
+        backdrop-filter: blur(15px);
+        border: 2px solid rgba(255,255,255,0.25);
+        padding: 2rem 3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .text-before-profile__desc {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .text-before-profile__desc h1,
+      .text-before-profile__desc h2 {
+        font-size: 20px;
+        font-weight: bold;
+        color: rgba(255,255,255,0.65);
+      }
+      .profile-card__social {
+        display: flex;
+        justify-content: center;
+        align-items: flex;
+        flex-wrap: wrap;
+      }
+      .profile-card__social a {
+        display: inline-flex;
+        width: 50px;
+        height: 50px;
+        margin: 10px;
+        border-radius: 40%;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        position: relative;
+        flex-shrink: 0;
+        transition: all 0.2s;
+      }
+      @media screen and (max-width:768px) {
+        .profile-card__social a { width: 50px; height: 50px; margin: 10px; }
+      }
+      @media screen and (min-width:768px) {
+        .profile-card__social a:hover { transform: scale(1.2) translateY(-9px); }
+      }
+      .profile-card__social a.telegram {
+        background: linear-gradient(65deg, #00ccff, #0099ff);
+        box-shadow: 0 4px 30px rgba(47,132,165,0.5);
+      }
+      .profile-card__social a.apple {
+        background: linear-gradient(45deg, rgb(252,60,68), #fc3c44, #f94c57, #fc3c44);
+        box-shadow: 0 4px 30px rgba(252,60,68,0.6);
+      }
+      .profile-card__social a.tiktok {
+        background: linear-gradient(45deg, rgb(0,0,0), #2b2525, #1c1616, #000000);
+        box-shadow: 0 4px 30px rgba(15,15,15,0.6);
+      }
+      .profile-card__social a.msdl {
+        background: linear-gradient(45deg, #717fce, #6f88a3);
+        box-shadow: 0 4px 30px rgb(113,127,206);
+      }
+      .profile-card__social a.steam {
+        background: linear-gradient(45deg, #000000, #3b4652);
+        box-shadow: 0 4px 30px rgba(27,26,26,0.62);
+      }
+      .profile-card__social a.github {
+        background: linear-gradient(45deg, #121a1a, #192020);
+        box-shadow: 0 4px 30px rgba(27,26,26,0.62);
+      }
+      /* Кнопка "Наверх" */
+      #back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: var(--accent-gradient);
+        color: #000;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s;
+        z-index: 1000;
+      }
+      #back-to-top.show {
+        opacity: 1;
+        visibility: visible;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="preloader">
+      <div class="spinner"></div>
+    </div>
+    <header>
+      <h1>xelvorn's Bio</h1>
+    </header>
+    <div class="tabs">
+      <div class="tab active" data-tab="bio">
+        <span class="tab-text">bio</span>
+        <span class="tab-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <g>
+              <path d="M21,24H19V18.957A2.96,2.96,0,0,0,16.043,16H7.957A2.96,2.96,0,0,0,5,18.957V24H3V18.957A4.963,4.963,0,0,1,7.957,14h8.086A4.963,4.963,0,0,1,21,18.957Z"/>
+              <path d="M12,12a6,6,0,1,1,6-6A6.006,6.006,0,0,1,12,12ZM12,2a4,4,0,1,0,4,4A4,4,0,0,0,12,2Z"/>
+            </g>
+          </svg>
         </span>
       </div>
-      <div class="terminal">
-        <span class="command">[lamer@hplaptop ~]$ cat /etc/xelvorn/info</span>
-        <span class="response">
-          Имя пользователя: xelvorn AKA xelrn<br>
-          Локация: Russia<br>
-          Интересы: программирование, музыка, гнить<br>
-          Любимые фразы: иди нахуй<br>
-          Будущее: может продавцом в пятерочке
+      <div class="tab" data-tab="music">
+        <span class="tab-text">music</span>
+        <span class="tab-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M22.554.923A3.978,3.978,0,0,0,19.263.07L10.079,1.792A5,5,0,0,0,6,6.706v9.85A3.959,3.959,0,0,0,4,16a4,4,0,1,0,4,4V10.876A2,2,0,0,1,9.632,8.91l11.183-2.1A1,1,0,0,1,22,7.8v5.76A3.959,3.959,0,0,0,20,13a4,4,0,1,0,4,4V4A3.987,3.987,0,0,0,22.554.923ZM4,22a2,2,0,1,1,2-2A2,2,0,0,1,4,22ZM20.447,4.848,9.263,6.944A4,4,0,0,0,8,7.416v-.71a3,3,0,0,1,2.447-2.949l9.185-1.722A2,2,0,0,1,22,4v.984A2.955,2.955,0,0,0,20.447,4.848ZM20,19a2,2,0,1,1,2-2A2,2,0,0,1,20,19Z"/>
+          </svg>
         </span>
       </div>
-    </section>
-
-    <section class="tab-content" id="music">
-      <h2>Музыкальные коллекции</h2>
-      <p>Ниже представлены исполнители, которые мне нравятся. Нажмите на карточку для перехода к их профилю в яндекс музыке.</p>
-      <div class="artist-cards">
-        <div class="artist-card">
-          <img src="gf.png" alt="Gone.Fludd" />
-          <h3>Gone.Fludd</h3>
-          <a href="https://music.yandex.ru/artist/4865954" target="_blank">Слушать в Я.Музыке</a>
-        </div>
-        <div class="artist-card">
-          <img src="2r2r.png" alt="2rbina 2rista" />
-          <h3>2rbina 2rista</h3>
-          <a href="https://music.yandex.ru/artist/3789570" target="_blank">Слушать в Я.Музыке</a>
-        </div>
-        <div class="artist-card">
-          <img src="пм.png" alt="Пошлая Молли" />
-          <h3>Пошлая Молли</h3>
-          <a href="https://music.yandex.ru/artist/4952161" target="_blank">Слушать в Я.Музыке</a>
-        </div>
-        <div class="artist-card">
-          <h3>Mindless Self Indulgence</h3>
-          <a href="https://music.yandex.ru/artist/161544" target="_blank">Слушать в Я.Музыке</a>
-        </div>
+      <div class="tab" data-tab="devices">
+        <span class="tab-text">devices</span>
+        <span class="tab-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M15.045,0c-.027-.001-6.063-.001-6.09,0-2.736,.024-4.955,2.258-4.955,4.999v14c0,2.757,2.243,5,5,5h6c2.757,0,5-2.243,5-5V5C20,2.258,17.781,.025,15.045,0Zm2.955,18.999c0,1.654-1.346,3-3,3h-6c-1.654,0-3-1.346-3-3V5c0-1.453,1.038-2.667,2.411-2.942l.694,1.389c.169,.339,.516,.553,.895,.553h4c.379,0,.725-.214,.895-.553l.694-1.389c1.373,.274,2.411,1.489,2.411,2.942v14Zm-5,1h-2c-.552,0-1-.448-1-1h0c0-.552,.448-1,1-1h2c.552,0,1,.448,1,1h0c0,.552-.448,1-1,1Z"/>
+          </svg>
+        </span>
       </div>
-    </section>
-
-    <section class="tab-content" id="devices">
-  <h2>Девайсы</h2>
-  <p>Основные устройства, которые я использую:</p>
-  <a href="https://www.mi.com/ru/product/xiaomi-11-lite-5g-ne/" target="_blank" class="device-link">
-    <div class="device-card">
-      <img src="mi11lite.png" alt="Mi 11 Lite 5G NE" />
-      <div class="device-info">
-        <h3>Mi 11 Lite 5G NE</h3>
-        <ul>
-          <li>Процессор: Snapdragon 778G</li>
-          <li>ОЗУ: 8GB</li>
-          <li>Накопитель: 128GB</li>
-          <li>Экран: 6.55" AMOLED, 90 Гц</li>
-          <li>ОС: OxygenOS 15</li>
-        </ul>
+      <div class="tab" data-tab="interests">
+        <span class="tab-text">interests</span>
+        <span class="tab-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <g>
+              <path d="M17.5.917a6.4,6.4,0,0,0-5.5,3.3A6.4,6.4,0,0,0,6.5.917,6.8,6.8,0,0,0,0,7.967c0,6.775,10.956,14.6,11.422,14.932l.578.409.578-.409C13.044,22.569,24,14.742,24,7.967A6.8,6.8,0,0,0,17.5.917ZM12,20.846c-3.253-2.43-10-8.4-10-12.879a4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,11,7.967h2a4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,22,7.967C22,12.448,15.253,18.416,12,20.846Z"/>
+            </g>
+          </svg>
+        </span>
+      </div>
+      <div class="tab" data-tab="contacts">
+        <span class="tab-text">links</span>
+        <span class="tab-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <g>
+              <path d="M1.444,6.669a2,2,0,0,0-.865,3.337l3.412,3.408V20h6.593l3.435,3.43a1.987,1.987,0,0,0,1.408.588,2.034,2.034,0,0,0,.51-.066,1.978,1.978,0,0,0,1.42-1.379L23.991.021ZM2,8.592l17.028-5.02L5.993,16.586v-4Zm13.44,13.424L11.413,18h-4L20.446,4.978Z"/>
+            </g>
+          </svg>
+        </span>
       </div>
     </div>
-  </a>
-  <div class="pc-cards">
-    <a href="./ishod.png" target="_blank" class="device-link">
-      <div class="device-card">
-        <img src="hp.png" alt="HP Laptop" />
-        <div class="device-info">
-          <h3>HP Laptop</h3>
-          <ul>
-            <li>Процессор: Pentium Gold 7505</li>
-            <li>ОЗУ: 8GB DDR4</li>
-            <li>SSD: 256GB</li>
-            <li>OS: Arch linux</li>
-          </ul>
+    <main>
+      <section class="tab-content active" id="bio">
+        <div class="terminal">
+          <span class="command" data-text="[lamer@hplaptop ~]$ cat /etc/xelvorn/site"></span>
+          <span class="response">
+            Имя: bio<br />
+            Версия: 2.1.0<br />
+            Описание: кривой био-сайтик о нн парне из тг<br />
+            Изменения: почистил лишнее из кода, изменил вкладку контакты на ссылки<br />
+            Автор: xelvorn<br />
+            Дата сборки: 2025-03-30
+          </span>
         </div>
-      </div>
-    </a>
-    <a href="https://4pda.to/forum/index.php?showtopic=978106" target="_blank" class="device-link">
-      <div class="device-card">
-        <img src="gaybook.png" alt="Acer Aspire" />
-        <div class="device-info">
-          <h3>Acer Aspire A315-42G</h3>
-          <ul>
-            <li>Процессор: Ryzen 5 3500U</li>
-            <li>ОЗУ: 8GB DDR4</li>
-            <li>SSD: 512GB</li>
-            <li>OS: ШindoVs 10</li>
-          </ul>
+        <div class="terminal">
+          <span class="command" data-text="[lamer@hplaptop ~]$ cat /etc/xelvorn/info"></span>
+          <span class="response">
+            Имя пользователя: xelvorn AKA xelrn<br />
+            Локация: Russia<br />
+            Интересы: программирование, музыка, гнить<br />
+            Любимые фразы: иди нахуй<br />
+            Будущее: может продавцом в пятерочке
+          </span>
         </div>
-      </div>
-    </a>
-  </div>
-</section>
-
-
-    <section class="tab-content" id="interests">
-      <h2>Интересы</h2>
-      <p>я увлекаюсь:</p>
-      <ul>
-        <li>ебля с википедией</li>
-        <li>install rom india pubg 1488fps</li>
-        <li>гниением в сети интернет</li>
-        <li>roblox,minecraft,l4d,unturned</li>
-      </ul>
-    </section>
-
-    <section class="tab-content" id="contacts">
-      <h2>Контакты</h2>
-      <p>Найти меня можно в следующих сервисах:</p>
-      <ul>
-        <li><a href="https://t.me/xelrn132" target="_blank">Telegram</a></li>
-        <li><a href="https://pinterest.com/xelvorn" target="_blank">Pinterest</a></li>
-        <li><a href="https://www.tiktok.com/@ювелир" target="_blank">TikTok</a></li>
-        <li><a href="https://t.me/utirokpost" target="_blank">Shitpost</a></li>
-        <li><a href="https://t.me/filemusor" target="_blank">FileGarbage</a></li>
-      </ul>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2030 xelvorn. Все права спизжены, сайт хуйня кривая.</p>
-  </footer>
-
-  <script>
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('preloader').style.display = 'none';
-      }, 800);
-    });
-
-    const tabs = document.querySelectorAll('.tab');
-    const contents = document.querySelectorAll('.tab-content');
-    tabs.forEach((tab) => {
-      tab.addEventListener('click', () => {
-        tabs.forEach((t) => t.classList.remove('active'));
-        tab.classList.add('active');
-        contents.forEach((content) => content.classList.remove('active'));
-        const target = tab.getAttribute('data-tab');
-        document.getElementById(target).classList.add('active');
+      </section>
+      <section class="tab-content" id="music">
+        <h2>Музыкальные коллекции</h2>
+        <p>
+          Ниже представлены исполнители, которые мне нравятся. Нажмите на карточку для перехода к их
+          профилю в Я.Музыке.
+        </p>
+        <div class="artist-cards">
+          <div class="artist-card">
+            <img src="gf.png" alt="Gone.Fludd" />
+            <h3>Gone.Fludd</h3>
+            <a href="https://music.yandex.ru/artist/4865954" target="_blank">Слушать в Я.Музыке</a>
+          </div>
+          <div class="artist-card">
+            <img src="2r2r.png" alt="2rbina 2rista" />
+            <h3>2rbina 2rista</h3>
+            <a href="https://music.yandex.ru/artist/3789570" target="_blank">Слушать в Я.Музыке</a>
+          </div>
+          <div class="artist-card">
+            <img src="пм.png" alt="Пошлая Молли" />
+            <h3>Пошлая Молли</h3>
+            <a href="https://music.yandex.ru/artist/4952161" target="_blank">Слушать в Я.Музыке</a>
+          </div>
+          <div class="artist-card">
+            <h3>Mindless Self Indulgence</h3>
+            <a href="https://music.yandex.ru/artist/161544" target="_blank">Слушать в Я.Музыке</a>
+          </div>
+        </div>
+      </section>
+      <section class="tab-content" id="devices">
+        <h2>Девайсы</h2>
+        <p>Основные устройства, которые я использую:</p>
+        <a href="https://www.mi.com/ru/product/xiaomi-11-lite-5g-ne/" target="_blank" class="device-link">
+          <div class="device-card">
+            <img src="mi11lite.png" alt="Mi 11 Lite 5G NE" />
+            <div class="device-info">
+              <h3>Mi 11 Lite 5G NE</h3>
+              <ul>
+                <li>Процессор: Snapdragon 778G</li>
+                <li>ОЗУ: 8GB</li>
+                <li>Накопитель: 128GB</li>
+                <li>Экран: 6.55" AMOLED, 90 Гц</li>
+                <li>ОС: OxygenOS 15</li>
+              </ul>
+            </div>
+          </div>
+        </a>
+        <div class="pc-cards">
+          <a href="./ishod.png" target="_blank" class="device-link">
+            <div class="device-card">
+              <img src="hp.png" alt="HP Laptop" />
+              <div class="device-info">
+                <h3>HP Laptop</h3>
+                <ul>
+                  <li>Процессор: Pentium Gold 7505</li>
+                  <li>ОЗУ: 8GB DDR4</li>
+                  <li>SSD: 256GB</li>
+                  <li>OS: Arch linux</li>
+                </ul>
+              </div>
+            </div>
+          </a>
+          <a href="https://4pda.to/forum/index.php?showtopic=978106" target="_blank" class="device-link">
+            <div class="device-card">
+              <img src="gaybook.png" alt="Acer Aspire" />
+              <div class="device-info">
+                <h3>Acer Aspire A315-42G</h3>
+                <ul>
+                  <li>Процессор: Ryzen 5 3500U</li>
+                  <li>ОЗУ: 8GB DDR4</li>
+                  <li>SSD: 512GB</li>
+                  <li>OS: ШindoVs 10</li>
+                </ul>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
+      <section class="tab-content" id="interests">
+        <h2>Интересы</h2>
+        <p>Я увлекаюсь:</p>
+        <ul>
+          <li>ебля с википедией</li>
+          <li>install rom india pubg 1488fps</li>
+          <li>гниением в сети интернет</li>
+          <li>roblox, minecraft, l4d, unturned</li>
+        </ul>
+      </section>
+      <section class="tab-content" id="contacts">
+        <h2>Ссылочки</h2>
+        <div class="profile-card__social">
+          <a href="tg://resolve?domain=xelrn" aria-label="Telegram link" class="telegram">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="64" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4"/>
+            </svg>
+          </a>
+          <a href="https://msdl.eblo.lol" aria-label="My MSDL" class="msdl">
+            <svg fill="#FFFFFF" width="32px" height="64px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
+              <path d="M20.5 6h-12C7.122 6 6 7.122 6 8.5v12C6 21.878 7.122 23 8.5 23h12c1.378 0 2.5-1.122 2.5-2.5v-12C23 7.122 21.878 6 20.5 6zM39.5 6h-12C26.122 6 25 7.122 25 8.5v12c0 1.378 1.122 2.5 2.5 2.5h12c1.378 0 2.5-1.122 2.5-2.5v-12C42 7.122 40.878 6 39.5 6zM20.5 25h-12C7.122 25 6 26.122 6 27.5v12C6 40.878 7.122 42 8.5 42h12c1.378 0 2.5-1.122 2.5-2.5v-12C23 26.122 21.878 25 20.5 25zM39.5 25h-12c-1.378 0-2.5 1.122-2.5 2.5v12c0 1.378 1.122 2.5 2.5 2.5h12c1.378 0 2.5-1.122 2.5-2.5v-12C42 26.122 40.878 25 39.5 25z"/>
+            </svg>
+          </a>
+          <a href="https://www.tiktok.com/@MS4wLjABAAAArEqIBD820HCYdIfQ39eWaypuw-pFHkZeQogUBN51ZE87Yp23GlPmupwVK9BmObmj" aria-label="TikTok link" class="tiktok">
+            <svg fill="#FFFFFF" width="32px" height="64px" viewBox="-4 -5 32 32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
+              <path d="M22.5 9.84202C20.4357 9.84696 18.4221 9.20321 16.7435 8.00171V16.3813C16.7429 17.9333 16.2685 19.4482 15.3838 20.7233C14.499 21.9984 13.246 22.973 11.7923 23.5168C10.3387 24.0606 8.75362 24.1477 7.24914 23.7664C5.74466 23.3851 4.39245 22.5536 3.37333 21.383C2.3542 20.2125 1.71674 18.7587 1.54617 17.2161C1.3756 15.6735 1.68007 14.1156 2.41884 12.7507C3.15762 11.3858 4.2955 10.279 5.68034 9.57823C7.06517 8.87746 8.63095 8.61616 10.1683 8.82927V13.0439C9.4648 12.8227 8.70938 12.8293 8.0099 13.063C7.31041 13.2966 6.70265 13.7453 6.2734 14.345C5.84415 14.9446 5.61536 15.6646 5.6197 16.402C5.62404 17.1395 5.8613 17.8567 6.29759 18.4512C6.73387 19.0458 7.34688 19.4873 8.04906 19.7127C8.75125 19.9381 9.5067 19.9359 10.2075 19.7063C10.9084 19.4768 11.5188 19.0316 11.9515 18.4345C12.3843 17.8374 12.6173 17.1188 12.6173 16.3813V0H16.7435C16.7406 0.348435 16.7698 0.696395 16.8307 1.03948V1.03948C16.9741 1.80537 17.2722 2.53396 17.7068 3.18068C18.1415 3.8274 18.7035 4.37867 19.3585 4.80075C20.2903 5.41688 21.3829 5.74528 22.5 5.74505V9.84202Z"/>
+            </svg>
+          </a>
+          <a href="https://steamcommunity.com/id/xlrn" aria-label="Steam link" class="steam">
+            <svg width="32px" height="64px" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill="none">
+              <g transform="matrix(1.9641 0 0 1.96342 19.541 5.281)" style="fill:#FFFFFF;stroke:#FFFFFF;stroke-width:6.09958;stroke-linecap:round;stroke-linejoin:round">
+                <path d="m.154 41.29 23.71 9.803a12.444 12.444 0 0 1 7.745-2.158l10.544-15.283-.001-.216c0-9.199 7.483-16.683 16.683-16.683 9.199 0 16.682 7.484 16.682 16.683S68.034 50.12 58.835 50.12c-.127 0-.253-.003-.379-.006l-15.038 10.73c.008.195.015.394.015.592 0 6.906-5.617 12.522-12.522 12.522-6.061 0-11.129-4.326-12.277-10.055l-16.956-7.01"/>
+                <ellipse cx="58.576" cy="33.435" rx="9.916" ry="9.922" style="fill:#000000;"/>
+                <ellipse cx="31.079" cy="61.436" rx="7.437" ry="7.441" style="fill:#000000;"/>
+              </g>
+            </svg>
+          </a>
+          <a href="https://github.com/xelvorn" aria-label="Github link" class="github">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="64" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"/>
+            </svg>
+          </a>
+        </div>
+      </section>
+    </main>
+    <button id="back-to-top">Наверх</button>
+    <footer>
+      <p>© 2030 xelvorn. Все права спизжены, сайт хуйня кривая.</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script>
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          document.getElementById('preloader').style.display = 'none';
+        }, 800);
       });
-    });
-  </script>
-  <script>
-  let touchstartX = 0;
-  let touchendX = 0;
 
-  function handleGesture() {
-    if (touchendX < touchstartX - 50) {
-      const activeTab = document.querySelector('.tab.active');
-      const nextTab = activeTab.nextElementSibling;
-      if (nextTab) nextTab.click();
-    }
-    if (touchendX > touchstartX + 50) {
-      const activeTab = document.querySelector('.tab.active');
-      const prevTab = activeTab.previousElementSibling;
-      if (prevTab) prevTab.click();
-    }
-  }
+      const tabs = document.querySelectorAll('.tab');
+      const contents = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          contents.forEach(c => c.classList.remove('active'));
+          const target = document.getElementById(tab.getAttribute('data-tab'));
+          target.classList.add('active');
+          gsap.fromTo(target, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 });
+        });
+      });
 
-  document.addEventListener('touchstart', e => {
-    touchstartX = e.changedTouches[0].screenX;
-  });
+      let touchstartX = 0, touchendX = 0;
+      function handleGesture() {
+        if (touchendX < touchstartX - 50) {
+          const next = document.querySelector('.tab.active').nextElementSibling;
+          if (next) next.click();
+        }
+        if (touchendX > touchstartX + 50) {
+          const prev = document.querySelector('.tab.active').previousElementSibling;
+          if (prev) prev.click();
+        }
+      }
+      document.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; });
+      document.addEventListener('touchend', e => { touchendX = e.changedTouches[0].screenX; handleGesture(); });
 
-  document.addEventListener('touchend', e => {
-    touchendX = e.changedTouches[0].screenX;
-    handleGesture();
-  });
-</script>
-</body>
+      const typedEls = document.querySelectorAll('.terminal .command');
+      typedEls.forEach(el => {
+        let text = el.dataset.text || el.textContent;
+        el.textContent = "";
+        new Typed(el, {
+          strings: [text],
+          typeSpeed: 30,
+          backSpeed: 0,
+          loop: false,
+          showCursor: true,
+          cursorChar: '|',
+          startDelay: 500,
+          onComplete: () => {
+            gsap.fromTo(el.nextElementSibling, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.8 });
+          }
+        });
+      });
+
+      // Порог появления кнопки изменен на 100px
+      const backToTop = document.getElementById('back-to-top');
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 100) {
+          backToTop.classList.add('show');
+        } else {
+          backToTop.classList.remove('show');
+        }
+      });
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    </script>
+  </body>
 </html>
