@@ -1,56 +1,47 @@
 <!DOCTYPE html>
 <html lang="ru">
   <head>
+    <!-- Мета-информация документа -->
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>xelvorn's Bio</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
-    <!-- Material Dark Theme & Local Nothing Dot Font -->
+    <!-- Шрифты: локальный "Nothing" и Google Roboto -->
     <style>
-      /* Подключение шрифтов */
       @font-face {
         font-family: "Nothing";
         src: url("nothing-font.otf") format("opentype");
         font-weight: normal;
         font-style: normal;
       }
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-      @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
-
-      /* CSS-переменные (цвета, тени) */
+      /* ==== CSS-переменные для цветовой темы и теней ==== */
       :root {
-        --primary-color: #e0e0e0;
-        --secondary-color: #9e9e9e;
-        --accent-color: #00ff3b;
-        --bg-color: #121212;
-        --card-bg: #1e1e1e;
-        --shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        --tab-hover-bg: rgba(255, 255, 255, 0.05);
-        --tab-active-bg: rgba(255, 255, 255, 0.1);
+        --primary-color: #e0e0e0;       /* основной текст */
+        --secondary-color: #9e9e9e;     /* вспомогательный текст */
+        --accent-color: #00ff3b;        /* акцентные элементы */
+        --bg-color: #121212;            /* фон страницы */
+        --card-bg: #1e1e1e;             /* фон карточек */
+        --shadow: 0 4px 8px rgba(0,0,0,0.3);
+        --tab-hover-bg: rgba(255,255,255,0.05);
+        --tab-active-bg: rgba(255,255,255,0.1);
       }
 
-      /* Сброс отступов и базовые стили */
-      *,
-      *::before,
-      *::after {
+      /* ==== Сброс стилей и базовая типографика ==== */
+      *, *::before, *::after {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
-
-      html,
-      body {
+      html, body {
         height: 100%;
         font-family: "Nothing", "Roboto", sans-serif;
-        background: var(--bg-color);
+        background-color: var(--bg-color);
         color: var(--primary-color);
         overflow-x: hidden;
       }
-
       a {
         color: var(--accent-color);
         text-decoration: none;
@@ -59,36 +50,58 @@
         text-decoration: underline;
       }
 
-      /* Анимации */
+      /* ==== Анимации ==== */
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
+      }
       @keyframes fadeInDown {
-        from {
-          opacity: 0;
-          transform: translateY(-20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(-20px); }
+        to   { opacity: 1; transform: translateY(0); }
       }
-
       @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
+        from { opacity: 0; }
+        to   { opacity: 1; }
       }
 
-      /* Header */
+      /* ==== Лоадер: спиннер и цитата ==== */
+      #loader {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--bg-color);
+        z-index: 9999;
+      }
+      .spinner {
+        width: 60px; height: 60px;
+        border: 8px solid rgba(255,255,255,0.1);
+        border-top: 8px solid var(--accent-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 1rem;
+      }
+      .loader-quote {
+        font-family: "Nothing", "Roboto", sans-serif;
+        color: var(--primary-color);
+        text-align: center;
+        max-width: 80%;
+        user-select: none;
+        cursor: pointer;
+      }
+
+      /* ==== Хедер ==== */
       header {
         text-align: center;
         padding: 1.5rem 1rem;
-        background: var(--bg-color);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        background-color: var(--bg-color);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        animation: fadeInDown 0.5s ease;
         position: relative;
         z-index: 1;
-        animation: fadeInDown 0.5s ease;
       }
       header h1 {
         font-size: 2rem;
@@ -96,19 +109,17 @@
         color: var(--primary-color);
       }
 
-      /* Вкладки (tabs) */
+      /* ==== Навигационные вкладки ==== */
       .tabs {
         display: flex;
         justify-content: center;
-        background: var(--bg-color);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        background-color: var(--bg-color);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        user-select: none;
         position: relative;
         z-index: 1;
-        user-select: none;
       }
-
       .tab {
-        position: relative;
         padding: 1rem 1.5rem;
         cursor: pointer;
         text-transform: uppercase;
@@ -116,40 +127,35 @@
         font-size: 0.95rem;
         color: var(--secondary-color);
         background: transparent;
-        transition: color 0.3s, background 0.3s;
+        transition: color 0.3s, background-color 0.3s;
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        overflow: hidden;
+        position: relative;
       }
       .tab:hover {
         color: var(--primary-color);
-        background: var(--tab-hover-bg);
+        background-color: var(--tab-hover-bg);
       }
       .tab::after {
-        content: "";
+        content: '';
         position: absolute;
         bottom: 0;
         left: 50%;
         width: 0;
         height: 2px;
-        background: var(--accent-color);
+        background-color: var(--accent-color);
         transition: width 0.3s ease, left 0.3s ease;
       }
-      .tab:hover::after {
+      .tab:hover::after,
+      .tab.active::after {
         width: 100%;
         left: 0;
       }
       .tab.active {
         color: var(--primary-color);
-        background: var(--tab-active-bg);
+        background-color: var(--tab-active-bg);
       }
-      .tab.active::after {
-        width: 100%;
-        left: 0;
-      }
-
-      /* По умолчанию иконка скрыта, текст виден */
       .tab-icon {
         display: none;
         width: 24px;
@@ -160,37 +166,39 @@
         display: inline;
       }
 
-      /* Содержимое вкладок */
+      /* Показать иконки вместо текста на мобильных */
+      @media (max-width: 600px) {
+        .tab-text { display: none; }
+        .tab-icon { display: inline-block; }
+      }
+
+      /* ==== Контент вкладок ==== */
       main {
         padding: 2rem 1rem;
       }
       .tab-content {
-        max-width: 900px;
-        width: 100%;
         display: none;
-        background: var(--card-bg);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        padding: 1.5rem;
-        box-shadow: var(--shadow);
+        max-width: 900px;
         margin: 1rem auto;
+        padding: 1.5rem;
+        background-color: var(--card-bg);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
         backdrop-filter: blur(5px);
         animation: fadeIn 0.4s ease;
       }
-      .tab-content.active {
-        display: block;
-      }
+      .tab-content.active { display: block; }
 
-      /* Заголовки секций */
+      /* ==== Стили заголовков и текста ==== */
       h2 {
         margin-bottom: 1rem;
         font-size: 1.5rem;
         color: var(--primary-color);
       }
-      p,
-      li {
-        line-height: 1.6;
+      p, li {
         margin-bottom: 1rem;
+        line-height: 1.6;
         color: var(--primary-color);
       }
       ul {
@@ -202,69 +210,44 @@
         color: var(--accent-color);
       }
 
-      /* -------------------------------------------------------------- */
-      /* Здесь меняем шрифт внутри #devices и #interests (кроме .device-card) */
-      /* -------------------------------------------------------------- */
-      #devices h2,
-      #devices p {
-        font-family: "Roboto", sans-serif;
-      }
-      /* .device-card оставляем с font-family: Nothing */
-      #interests h2,
-      #interests p,
-      #interests ul,
-      #interests li {
-        font-family: "Roboto", sans-serif;
-      }
-
-      /* Карточки устройств (оставляем базовый шрифт для них) */
+      /* ==== Карточки устройств ==== */
       .device-card {
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
-        background: var(--bg-color);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background-color: var(--bg-color);
+        border: 1px solid rgba(255,255,255,0.1);
         border-radius: 8px;
         padding: 1rem;
         box-shadow: var(--shadow);
-        margin-bottom: 1rem;
         transition: transform 0.3s;
       }
-      .device-card:hover {
-        transform: translateY(-5px);
-      }
+      .device-card:hover { transform: translateY(-5px); }
       .device-card img {
+        flex-shrink: 0;
         max-width: 300px;
         border-radius: 8px;
-        flex-shrink: 0;
       }
-      .device-info {
-        flex: 1;
-      }
+      .device-info { flex: 1; }
       .device-info h3 {
         margin-bottom: 0.5rem;
         font-size: 1.3rem;
         color: var(--primary-color);
-        /* шрифт по умолчанию (“Nothing”) у заголовков карточек */
       }
-      .device-info ul {
-        margin-left: 1rem;
-      }
+      .device-info ul { margin-left: 1rem; }
 
-      /* -------------------------------------------------------------- */
-      /* Секция Music: крупная кнопка */
-      /* -------------------------------------------------------------- */
+      /* ==== Кнопка Last.fm ==== */
       .lastfm-button {
         display: block;
-        max-width: 300px;
         margin: 2rem auto;
         padding: 1rem 1.5rem;
+        max-width: 300px;
         background-color: var(--accent-color);
         color: var(--bg-color);
-        font-size: 1.1rem;
+        text-align: center;
         font-family: "Roboto", sans-serif;
         font-weight: 500;
-        text-align: center;
+        font-size: 1.1rem;
         border-radius: 6px;
         transition: transform 0.2s, opacity 0.2s;
       }
@@ -273,68 +256,41 @@
         opacity: 0.9;
       }
 
-      /* Социальные ссылки */
+      /* ==== Социальные ссылки ==== */
       .profile-card__social {
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
+        justify-content: center;
+        margin-top: 1rem;
       }
       .profile-card__social a {
         display: inline-flex;
-        width: 50px;
-        height: 50px;
-        margin: 10px;
-        border-radius: 40%;
         align-items: center;
         justify-content: center;
-        color: white;
-        position: relative;
-        flex-shrink: 0;
-        transition: all 0.2s;
+        width: 50px; height: 50px;
+        margin: 10px;
+        border-radius: 40%;
+        color: #fff;
+        transition: transform 0.2s;
       }
-      @media screen and (min-width: 768px) {
-        .profile-card__social a:hover {
-          transform: scale(1.2) translateY(-9px);
-        }
-      }
-      .profile-card__social a.telegram {
-        background: linear-gradient(65deg, #00ccff, #0099ff);
-        box-shadow: 0 4px 30px rgba(47, 132, 165, 0.5);
-      }
-      .profile-card__social a.apple {
-        background: linear-gradient(
-          45deg,
-          rgb(252, 60, 68),
-          #fc3c44,
-          #f94c57,
-          #fc3c44
-        );
-        box-shadow: 0 4px 30px rgba(252, 60, 68, 0.6);
-      }
-      .profile-card__social a.tiktok {
-        background: linear-gradient(45deg, rgb(0, 0, 0), #2b2525, #1c1616, #000000);
-        box-shadow: 0 4px 30px rgba(15, 15, 15, 0.6);
-      }
-      .profile-card__social a.msdl {
-        background: linear-gradient(45deg, #717fce, #6f88a3);
-        box-shadow: 0 4px 30px rgb(113, 127, 206);
-      }
-      .profile-card__social a.steam {
-        background: linear-gradient(45deg, #000000, #3b4652);
-        box-shadow: 0 4px 30px rgba(27, 26, 26, 0.62);
-      }
-      .profile-card__social a.github {
-        background: linear-gradient(45deg, #121a1a, #192020);
-        box-shadow: 0 4px 30px rgba(27, 26, 26, 0.62);
-      }
+      .profile-card__social a:hover { transform: scale(1.2) translateY(-5px); }
 
-      /* Терминал */
+      /* Градиенты и тени для разных соцсетей */
+      .telegram { background: linear-gradient(65deg, #00ccff, #0099ff); box-shadow: 0 4px 30px rgba(47,132,165,0.5); }
+      .apple    { background: linear-gradient(45deg, #fc3c44, #f94c57); box-shadow: 0 4px 30px rgba(252,60,68,0.6); }
+      .tiktok   { background: #000; box-shadow: 0 4px 30px rgba(0,0,0,0.6); }
+      .msdl     { background: linear-gradient(45deg, #717fce, #6f88a3); box-shadow: 0 4px 30px rgba(113,127,206,0.6); }
+      .steam    { background: linear-gradient(45deg, #000, #3b4652); box-shadow: 0 4px 30px rgba(27,26,26,0.62); }
+      .github   { background: linear-gradient(45deg, #121a1a, #192020); box-shadow: 0 4px 30px rgba(27,26,26,0.62); }
+
+      /* ==== Терминал-стиль для вывода bio ==== */
       .terminal {
-        background: rgba(0, 0, 0, 0.8);
+        background-color: rgba(0,0,0,0.8);
+        color: var(--primary-color);
+        font-family: 'Source Code Pro', monospace;
         border-radius: 6px;
         padding: 1rem;
-        color: var(--primary-color);
-        font-family: "Source Code Pro", monospace;
         margin-bottom: 1rem;
       }
       .terminal .command::before {
@@ -342,49 +298,40 @@
         display: block;
         color: var(--accent-color);
       }
-      .terminal .response {
-        display: block;
-        margin-top: 0.5rem;
-      }
+      .terminal .response { display: block; margin-top: 0.5rem; }
 
-      /* Footer */
+      /* ==== Футер ==== */
       footer {
         text-align: center;
         padding: 1rem;
-        color: var(--secondary-color);
         font-size: 0.9rem;
+        color: var(--secondary-color);
         margin-top: 2rem;
       }
 
-      /* Медиазапросы: сначала планшеты/мобиль */
+      /* Адаптив: мобильные и планшеты */
       @media (max-width: 768px) {
-        .tab {
-          padding: 0.8rem 1rem;
-          font-size: 0.85rem;
-        }
-        header h1 {
-          font-size: 1.5rem;
-        }
-      }
-
-      /* Скрыть текст вкладок и показать иконки на мобильных (≤600px) */
-      @media (max-width: 600px) {
-        .tab-text {
-          display: none;
-        }
-        .tab-icon {
-          display: inline-block;
-        }
+        .tab { font-size: 0.85rem; padding: 0.8rem 1rem; }
+        header h1 { font-size: 1.5rem; }
       }
     </style>
   </head>
-
   <body>
+    <!-- Лоадер при загрузке страницы -->
+    <div id="loader">
+      <div class="spinner"></div>
+      <div id="loaderQuote" class="loader-quote">
+        "Yo Yo Yo 1-4-8 3 to the 3 to the 6 to the 9. Representing the ABQ. What up BEACH!"
+      </div>
+    </div>
+    <audio id="yoyoAudio" src="yoyoyo.mp3"></audio>
+
+    <!-- Шапка страницы -->
     <header>
       <h1>xelvorn's Bio</h1>
     </header>
 
-    <!-- Вкладки (tabs) -->
+    <!-- Вкладки навигации -->
     <div class="tabs">
       <div class="tab active" data-tab="bio">
         <span class="tab-text">bio</span>
@@ -442,64 +389,42 @@
       <div class="tab" data-tab="interests">
         <span class="tab-text">interests</span>
         <span class="tab-icon">
-          <!-- SVG иконка “местоположение/интересы” -->
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-          >
-            <g>
-              <path
-                d="M17.5.917a6.4,6.4,0,0,0-5.5,3.3A6.4,6.4,0,0,0,6.5.917,6.8,6.8,0,0,0,0,7.967c0,6.775,10.956,14.6,11.422,14.932l.578.409.578-.409C13.044,22.569,24,14.742,24,7.967A6.8,6.8,0,0,0,17.5.917ZM12,20.846c-3.253-2.43-10-8.4-10-12.879a4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,11,7.967h2a4.8,4.8,0,0,1,4.5-5.05A4.8,4.8,0,0,1,22,7.967C22,12.448,15.253,18.416,12,20.846Z"
-              />
-            </g>
-          </svg>
+          <!-- SVG иконка “интересы” -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <polygon points="12 2 15 8.5 22 9.2 17 14 18.5 21 12 17.8 5.5 21 7 14 2 9.2 9 8.5 12 2"/>
+</svg>
         </span>
       </div>
       <div class="tab" data-tab="contacts">
         <span class="tab-text">links</span>
         <span class="tab-icon">
           <!-- SVG иконка “контакты/ссылка” -->
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-          >
-            <g>
-              <path
-                d="M1.444,6.669a2,2,0,0,0-.865,3.337l3.412,3.408V20h6.593l3.435,3.43a1.987,1.987,0,0,0,1.408.588,2.034,2.034,0,0,0,.51-.066,1.978,1.978,0,0,0,1.42-1.379L23.991.021ZM2,8.592l17.028-5.02L5.993,16.586v-4Zm13.44,13.424L11.413,18h-4L20.446,4.978Z"
-              />
-            </g>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+  <path d="M10 13a5 5 0 0 0 7 0l4-4a5 5 0 0 0-7-7l-1.5 1.5"/>
+  <path d="M14 11a5 5 0 0 0-7 0l-4 4a5 5 0 0 0 7 7l1.5-1.5"/>
+</svg>
         </span>
       </div>
     </div>
 
-    <!-- Содержимое вкладок -->
+    <!-- Основной контент -->
     <main>
       <!-- Вкладка "Bio" -->
-      <section class="tab-content active" id="bio">
+      <section id="bio" class="tab-content active">
         <div class="terminal">
-          <span
-            class="command"
-            data-text="[lamer@thinkpad ~]$ cat /etc/xelvorn/site"
-          ></span>
+          <!-- Имитация терминала: команда и вывод -->
+          <span class="command" data-text="[lamer@thinkpad~]$ cat /etc/xelvorn/site"></span>
           <span class="response">
             Имя: bio<br />
-            Версия: 3.0.0<br />
+            Версия: 3.1.0<br />
             Описание: кривой био-сайтик о нн парне из тг<br />
-            Изменения: редизайн и прочая хуйня<br />
+            Изменения: комментарии в коде и жмякни на цитату при загрузке<br />
             Автор: xelvorn<br />
-            Дата изменения: 2025-06-05
+            Дата изменения: 2025-06-07
           </span>
         </div>
         <div class="terminal">
-          <span
-            class="command"
-            data-text="[lamer@thinkpad ~]$ cat /etc/xelvorn/info"
-          ></span>
+          <span class="command" data-text="[lamer@thinkpad~]$ cat /etc/xelvorn/info"></span>
           <span class="response">
             Имя пользователя: xelvorn AKA xelrn AKA директор интернета<br />
             Локация: Russia<br />
@@ -511,32 +436,22 @@
       </section>
 
       <!-- Вкладка "Music" -->
-      <section class="tab-content" id="music">
+      <section id="music" class="tab-content">
         <h2>Музыка</h2>
-        <a
-          href="https://last.fm/user/xelvorn"
-          target="_blank"
-          class="lastfm-button"
-          >Перейти на Last.fm</a
-        >
+        <!-- Кнопка к Last.fm с hover-эффектом -->
+        <a href="https://last.fm/user/xelvorn" target="_blank" class="lastfm-button">
+          Перейти на Last.fm
+        </a>
       </section>
 
       <!-- Вкладка "Devices" -->
-      <section class="tab-content" id="devices">
+      <section id="devices" class="tab-content">
         <h2>Девайсы</h2>
         <p>Мои основные устройства:</p>
-
-        <!-- Карточки устройств остаются с фирменным шрифтом “Nothing” -->
-        <a
-          href="https://pcsupport.lenovo.com/ru/ru/products/laptops-and-netbooks/thinkpad-t-series-laptops/thinkpad-t14-gen-3-type-21cf-21cg/21cf/21cf000dus/pf47ywaf"
-          target="_blank"
-          class="device-link"
-        >
+        <!-- Карточка одного устройства: изображение, описание -->
+        <a href="https://pcsupport.lenovo.com/..." target="_blank" class="device-link">
           <div class="device-card">
-            <img
-              src="t14g3amd.png"
-              alt="ThinkPad T14 Gen 3 AMD"
-            />
+            <img src="t14g3amd.png" alt="ThinkPad T14 Gen 3 AMD" />
             <div class="device-info">
               <h3>ThinkPad T14 Gen 3 AMD</h3>
               <ul>
@@ -549,16 +464,10 @@
             </div>
           </div>
         </a>
-        <a
-          href="https://nothing.tech/pages/phone-2"
-          target="_blank"
-          class="device-link"
-        >
+        <!-- Еще одна карточка устройства -->
+        <a href="https://nothing.tech/pages/phone-2" target="_blank" class="device-link">
           <div class="device-card">
-            <img
-              src="nothingphone2.png"
-              alt="Nothing Phone (2)"
-            />
+            <img src="nothingphone2.png" alt="Nothing Phone (2)" />
             <div class="device-info">
               <h3>Nothing Phone (2)</h3>
               <ul>
@@ -574,201 +483,121 @@
       </section>
 
       <!-- Вкладка "Interests" -->
-      <section class="tab-content" id="interests">
+      <section id="interests" class="tab-content">
         <h2>Интересы</h2>
         <ul>
-          <li>ебля с люмиями</li>
-          <li>юзер пиксель-подобных кастомов</li>
-          <li>гниение в сети интернет</li>
-          <li>roblox, minecraft, l4d, unturned</li>
+          <li>Ебля с люмиями</li>
+          <li>Юзер пиксель-подобных кастомов</li>
+          <li>Гниение в сети интернет</li>
+          <li>Roblox, Minecraft, L4D, Unturned</li>
         </ul>
-        <p>
-          Немного обо мне: обычный школьник из маленького городка, люблю играть в игры, экспериментировать с разными вещами, занимаюсь ремонтом телефонов и ноутбуков в своем городе. Довольно популярная личность в узких кругах.
-        </p>
+        <p>Немного обо мне: обычный школьник из маленького городка, люблю играть в игры, экспериментировать с разными вещами, занимаюсь ремонтом телефонов и ноутбуков в своем городе. Довольно популярная личность в узких кругах.</p>
       </section>
 
       <!-- Вкладка "Contacts/Links" -->
-      <section class="tab-content" id="contacts">
+      <section id="contacts" class="tab-content">
         <h2>Ссылочки</h2>
         <div class="profile-card__social">
-          <a
-            href="tg://resolve?domain=exteraTyan"
-            aria-label="Telegram link"
-            class="telegram"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="64"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path
-                d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4"
-              />
-            </svg>
-          </a>
-          <a
-            href="https://msdl.eblo.lol"
-            aria-label="My MSDL"
-            class="msdl"
-          >
-            <svg
-              fill="#FFFFFF"
-              width="32px"
-              height="64px"
-              viewBox="0 0 48 48"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="xMidYMid"
-            >
-              <path
-                d="M20.5 6h-12C7.122 6 6 7.122 6 8.5v12C6 21.878 7.122 23 8.5 23h12c1.378 0 2.5-1.122 2.5-2.5v-12C23 7.122 21.878 6 20.5 6zM39.5 6h-12C26.122 6 25 7.122 25 8.5v12c0 1.378 1.122 2.5 2.5 2.5h12c1.378 0 2.5-1.122 2.5-2.5v-12C42 7.122 40.878 6 39.5 6zM20.5 25h-12C7.122 25 6 26.122 6 27.5v12C6 40.878 7.122 42 8.5 42h12c1.378 0 2.5-1.122 2.5-2.5v-12C23 26.122 21.878 25 20.5 25zM39.5 25h-12c-1.378 0-2.5 1.122-2.5 2.5v12c0 1.378 1.122 2.5 2.5 2.5h12c1.378 0 2.5-1.122 2.5-2.5v-12C42 26.122 40.878 25 39.5 25z"
-              />
-            </svg>
-          </a>
-          <a
-            href="https://www.tiktok.com/@MS4wLjABAAAArEqIBD820HCYdIfQ39eWaypuw-pFHkZeQogUBN51ZE87Yp23GlPmupwVK9BmObmj"
-            aria-label="TikTok link"
-            class="tiktok"
-          >
-            <svg
-              fill="#FFFFFF"
-              width="32px"
-              height="64px"
-              viewBox="-4 -5 32 32"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="xMidYMid"
-            >
-              <path
-                d="M22.5 9.84202C20.4357 9.84696 18.4221 9.20321 16.7435 8.00171V16.3813C16.7429 17.9333 16.2685 19.4482 15.3838 20.7233C14.499 21.9984 13.246 22.973 11.7923 23.5168C10.3387 24.0606 8.75362 24.1477 7.24914 23.7664C5.74466 23.3851 4.39245 22.5536 3.37333 21.383C2.3542 20.2125 1.71674 18.7587 1.54617 17.2161C1.3756 15.6735 1.68007 14.1156 2.41884 12.7507C3.15762 11.3858 4.2955 10.279 5.68034 9.57823C7.06517 8.87746 8.63095 8.61616 10.1683 8.82927V13.0439C9.4648 12.8227 8.70938 12.8293 8.0099 13.063C7.31041 13.2966 6.70265 13.7453 6.2734 14.345C5.84415 14.9446 5.61536 15.6646 5.6197 16.402C5.62404 17.1395 5.8613 17.8567 6.29759 18.4512C6.73387 19.0458 7.34688 19.4873 8.04906 19.7127C8.75125 19.9381 9.5067 19.9359 10.2075 19.7063C10.9084 19.4768 11.5188 19.0316 11.9515 18.4345C12.3843 17.8374 12.6173 17.1188 12.6173 16.3813V0H16.7435C16.7406 0.348435 16.7698 0.696395 16.8307 1.03948V1.03948C16.9741 1.80537 17.2722 2.53396 17.7068 3.18068C18.1415 3.8274 18.7035 4.37867 19.3585 4.80075C20.2903 5.41688 21.3829 5.74528 22.5 5.74505V9.84202Z"
-              />
-            </svg>
-          </a>
-          <a
-            href="https://steamcommunity.com/id/xlrn"
-            aria-label="Steam link"
-            class="steam"
-          >
-            <svg
-              width="32px"
-              height="64px"
-              viewBox="0 0 192 192"
-              xmlns="http://www.w3.org/2000/svg"
-              xml:space="preserve"
-              fill="none"
-            >
-              <g
-                transform="matrix(1.9641 0 0 1.96342 19.541 5.281)"
-                style="
-                  fill: #ffffff;
-                  stroke: #ffffff;
-                  stroke-width: 6.09958;
-                  stroke-linecap: round;
-                  stroke-linejoin: round;
-                "
-              >
-                <path
-                  d="m.154 41.29 23.71 9.803a12.444 12.444 0 0 1 7.745-2.158l10.544-15.283-.001-.216c0-9.199 7.483-16.683 16.683-16.683 9.199 0 16.682 7.484 16.682 16.683S68.034 50.12 58.835 50.12c-.127 0-.253-.003-.379-.006l-15.038 10.73c.008.195.015.394.015.592 0 6.906-5.617 12.522-12.522 12.522-6.061 0-11.129-4.326-12.277-10.055l-16.956-7.01"
-                />
-                <ellipse
-                  cx="58.576"
-                  cy="33.435"
-                  rx="9.916"
-                  ry="9.922"
-                  style="fill: #000000;"
-                />
-                <ellipse
-                  cx="31.079"
-                  cy="61.436"
-                  rx="7.437"
-                  ry="7.441"
-                  style="fill: #000000;"
-                />
-              </g>
-            </svg>
-          </a>
-          <a
-            href="https://github.com/xelvorn"
-            aria-label="Github link"
-            class="github"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="64"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path
-                d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"
-              />
-            </svg>
-          </a>
+          <!-- Telegram -->
+    <a href="tg://resolve?domain=exteraTyan" aria-label="Telegram" class="telegram">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white">
+        <path d="M 20.732422 2.0175781 C 20.304778 1.9692471 19.858058 2.0326721 19.431641 2.2363281 L 2.3886719 10.378906 A 1.0001 1.0001 0 0 0 2.3867188 10.378906 C 1.4037732 10.848905 0.92191338 11.886252 1.015625 12.818359 C 1.109337 13.750466 1.7886893 14.673247 2.8457031 14.9375 L 5.6660156 15.642578 C 6.7745184 15.919704 7.9493346 15.716068 8.9003906 15.082031 A 1.0001 1.0001 0 0 0 8.9121094 15.074219 L 9.4453125 14.708984 C 8.9896978 15.866704 9.3470324 17.266272 10.466797 17.978516 A 1.0001 1.0001 0 0 0 10.535156 18.017578 L 17.419922 21.681641 C 19.101004 22.57636 21.224098 21.448255 21.423828 19.554688 L 22.990234 4.7363281 A 1.0001 1.0001 0 0 0 22.990234 4.7265625 C 23.1255 3.3154184 22.015354 2.162571 20.732422 2.0175781 z M 20.576172 3.9785156 C 20.838968 3.9896922 21.030139 4.2103664 21 4.5351562 C 21 4.5351562 21 4.5371094 21 4.5371094 L 19.435547 19.34375 C 19.377277 19.896182 18.850293 20.177296 18.359375 19.916016 L 11.537109 16.285156 C 11.149284 16.033167 11.093466 15.5413 11.421875 15.212891 A 1.0001 1.0001 0 0 0 11.435547 15.199219 L 16.722656 9.6933594 A 1.0001 1.0001 0 0 0 15.435547 8.1757812 L 7.7910156 13.417969 C 7.3080716 13.739931 6.7138879 13.842046 6.1503906 13.701172 L 3.3320312 12.996094 C 3.0850451 12.934347 3.0243978 12.803534 3.0058594 12.619141 C 2.987321 12.434748 3.0199454 12.293595 3.25 12.183594 L 20.294922 4.0410156 C 20.392833 3.9942536 20.488573 3.9747901 20.576172 3.9785156 z"/>
+      </svg>
+    </a>
+
+    <!-- MSDL -->
+    <a href="https://msdl.eblo.lol" aria-label="MSDL" class="msdl">
+      <svg fill="#FFFFFF" width="28" height="28" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20.5 6h-12C7.122 6 6 7.122 6 8.5v12C6 21.878 7.122 23 8.5 23h12c1.378 0 2.5-1.122 2.5-2.5v-12C23 7.122 21.878 6 20.5 6zM39.5 6h-12C26.122 6 25 7.122 25 8.5v12c0 1.378 1.122 2.5 2.5 2.5h12c1.378 0 2.5-1.122 2.5-2.5v-12C42 7.122 40.878 6 39.5 6zM20.5 25h-12C7.122 25 6 26.122 6 27.5v12C6 40.878 7.122 42 8.5 42h12c1.378 0 2.5-1.122 2.5-2.5v-12C23 26.122 21.878 25 20.5 25zM39.5 25h-12c-1.378 0-2.5 1.122-2.5 2.5v12c0 1.378 1.122 2.5 2.5 2.5h12c1.378 0 2.5-1.122 2.5-2.5v-12C42 26.122 40.878 25 39.5 25z"/>
+      </svg>
+    </a>
+
+    <!-- TikTok -->
+    <a href="https://www.tiktok.com/@MS4wLjABAAAArEqIBD820HCYdIfQ39eWaypuw-pFHkZeQogUBN51ZE87Yp23GlPmupwVK9BmObmj" aria-label="TikTok" class="tiktok">
+      <svg fill="#FFFFFF" width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.5 9.84202C20.4357 9.84696 18.4221 9.20321 16.7435 8.00171V16.3813C16.7429 17.9333 16.2685 19.4482 15.3838 20.7233C14.499 21.9984 13.246 22.973 11.7923 23.5168C10.3387 24.0606 8.75362 24.1477 7.24914 23.7664C5.74466 23.3851 4.39245 22.5536 3.37333 21.383C2.3542 20.2125 1.71674 18.7587 1.54617 17.2161C1.3756 15.6735 1.68007 14.1156 2.41884 12.7507C3.15762 11.3858 4.2955 10.279 5.68034 9.57823C7.06517 8.87746 8.63095 8.61616 10.1683 8.82927V13.0439C9.4648 12.8227 8.70938 12.8293 8.0099 13.063C7.31041 13.2966 6.70265 13.7453 6.2734 14.345C5.84415 14.9446 5.61536 15.6646 5.6197 16.402C5.62404 17.1395 5.8613 17.8567 6.29759 18.4512C6.73387 19.0458 7.34688 19.4873 8.04906 19.7127C8.75125 19.9381 9.5067 19.9359 10.2075 19.7063C10.9084 19.4768 11.5188 19.0316 11.9515 18.4345C12.3843 17.8374 12.6173 17.1188 12.6173 16.3813V0H16.7435C16.7406 0.348435 16.7698 0.696395 16.8307 1.03948V1.03948C16.9741 1.80537 17.2722 2.53396 17.7068 3.18068C18.1415 3.8274 18.7035 4.37867 19.3585 4.80075C20.2903 5.41688 21.3829 5.74528 22.5 5.74505V9.84202Z"/>
+      </svg>
+    </a>
+
+    <!-- Steam -->
+    <a href="https://steamcommunity.com/id/xlrn" aria-label="Steam" class="steam">
+      <svg width="28" height="28" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg" fill="white">
+        <g transform="matrix(1.9641 0 0 1.96342 19.541 5.281)">
+          <path d="m.154 41.29 23.71 9.803a12.444 12.444 0 0 1 7.745-2.158l10.544-15.283-.001-.216c0-9.199 7.483-16.683 16.683-16.683 9.199 0 16.682 7.484 16.682 16.683S68.034 50.12 58.835 50.12c-.127 0-.253-.003-.379-.006l-15.038 10.73c.008.195.015.394.015.592 0 6.906-5.617 12.522-12.522 12.522-6.061 0-11.129-4.326-12.277-10.055l-16.956-7.01"/>
+          <ellipse cx="58.576" cy="33.435" rx="9.916" ry="9.922" fill="black"/>
+          <ellipse cx="31.079" cy="61.436" rx="7.437" ry="7.441" fill="black"/>
+        </g>
+      </svg>
+    </a>
+
+    <!-- GitHub -->
+    <a href="https://github.com/xelvorn" aria-label="GitHub" class="github">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white">
+        <path d="M12 .5C5.8.5.5 5.8.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2.1c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 3 1.4 3.7 1 .1-.8.4-1.4.7-1.7-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2.9-.3 1.8-.4 2.8-.4s1.9.1 2.8.4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9 0-6.2-5.3-11.5-11.5-11.5z"/>
+      </svg>
+    </a>
         </div>
       </section>
     </main>
 
+    <!-- Футер -->
     <footer>
       <p>© 2038 xelvorn. Все права спизжены.</p>
     </footer>
 
-    <!-- JavaScript для переключения вкладок и свайпов -->
+    <!-- Скрипты для работы вкладок, лоадера и свайпов -->
     <script>
-      const tabs = document.querySelectorAll(".tab");
-      const contents = document.querySelectorAll(".tab-content");
-      let currentTab = 0;
+      // Получаем элементы вкладок и контента
+      const tabs = document.querySelectorAll('.tab');
+      const contents = document.querySelectorAll('.tab-content');
+      let currentTab = 0; // индекс активной вкладки
 
+      // Назначаем обработчики клика для вкладок
       tabs.forEach((tab, index) => {
-        tab.addEventListener("click", () => switchTab(index));
+        tab.addEventListener('click', () => switchTab(index));
       });
 
+      /**
+       * Переключение на вкладку по индексу
+       * @param {number} index - индекс вкладки
+       */
       function switchTab(index) {
-        tabs[currentTab].classList.remove("active");
-        contents[currentTab].classList.remove("active");
+        tabs[currentTab].classList.remove('active');
+        contents[currentTab].classList.remove('active');
         currentTab = index;
-        tabs[currentTab].classList.add("active");
-        contents[currentTab].classList.add("active");
+        tabs[currentTab].classList.add('active');
+        contents[currentTab].classList.add('active');
       }
 
-      // Swipe functionality
-      let startX = 0;
-      let endX = 0;
+      /**
+       * Лоадер: скрываем через 2.5 секунды после загрузки
+       */
+      window.addEventListener('load', () => {
+        const loader = document.getElementById('loader');
+        const quote = document.getElementById('loaderQuote');
+        const audio = document.getElementById('yoyoAudio');
+        setTimeout(() => loader.style.display = 'none', 2500);
+        quote.addEventListener('click', () => { if (audio.paused) audio.play(); });
+      });
+
+      // Обработка свайпов и мыши для переключения вкладок
+      let startX = 0, endX = 0;
       const threshold = 50;
-      const mainEl = document.querySelector("main");
+      const mainElement = document.querySelector('main');
 
-      mainEl.addEventListener("touchstart", (e) => {
-        startX = e.changedTouches[0].screenX;
-      });
-      mainEl.addEventListener("touchend", (e) => {
-        endX = e.changedTouches[0].screenX;
-        handleGesture();
-      });
-      mainEl.addEventListener("mousedown", (e) => {
-        startX = e.screenX;
-      });
-      mainEl.addEventListener("mouseup", (e) => {
-        endX = e.screenX;
-        handleGesture();
-      });
+      mainElement.addEventListener('touchstart', e => startX = e.changedTouches[0].screenX);
+      mainElement.addEventListener('touchend', e => { endX = e.changedTouches[0].screenX; handleGesture(); });
+      mainElement.addEventListener('mousedown', e => startX = e.screenX);
+      mainElement.addEventListener('mouseup', e => { endX = e.screenX; handleGesture(); });
 
+      /**
+       * Определяет направление жеста и переключает вкладку
+       */
       function handleGesture() {
         const diff = endX - startX;
         if (Math.abs(diff) > threshold) {
-          if (diff < 0) {
-            switchTab((currentTab + 1) % tabs.length);
-          } else {
-            switchTab(
-              (currentTab - 1 + tabs.length) % tabs.length
-            );
-          }
+          if (diff < 0) switchTab((currentTab + 1) % tabs.length);
+          else switchTab((currentTab - 1 + tabs.length) % tabs.length);
         }
       }
     </script>
