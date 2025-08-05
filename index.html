@@ -256,6 +256,10 @@
         opacity: 0.9;
       }
 
+      #track, #artist, #date {
+        color: var(--primary-color);
+        margin: 12px;
+      }
       /* ==== Социальные ссылки ==== */
       .profile-card__social {
         display: flex;
@@ -438,7 +442,22 @@
       <!-- Вкладка "Music" -->
       <section id="music" class="tab-content">
         <h2>Музыка</h2>
-        <!-- Кнопка к Last.fm с hover-эффектом -->
+        <body> 
+          <table class="lastfm-scrobble">
+            <tr>
+              <td rowspan="3"><img id="album-cover"></td>
+              <td id="track"></td>
+            </tr>
+            <tr>
+              <td id="artist"></td>
+            </tr>
+            <tr>
+              <td id="date"></td>
+            </tr>
+          </table>
+        </body>
+
+        <script src="lastfm.js"></script>
         <a href="https://last.fm/user/xelvorn" target="_blank" class="lastfm-button">
           Перейти на Last.fm
         </a>
@@ -601,5 +620,7 @@
         }
       }
     </script>
+
+
   </body>
 </html>
